@@ -42,12 +42,15 @@
   <table>
     <tr>
       <td>
-          Blockly for CircuitPython
+          <font size="4">Blockly for CircuitPython</font>
           &nbsp;|&nbsp;
           <button onclick="saveCode()">Flash Code to Board</button>
           &nbsp;|&nbsp;
-          <button>Load Program</button>
-          <button>Save Program</button>
+          <button onclick="clearBlocklyCode()">Clear Program</button>
+          <button onclick="saveBlocklyCodeToFile()">Save Program</button>
+          <font size="2">Load Program</font>
+          <label class="input-button"><input accept=".blockly,
+text/plain" type="file" id="fileToLoad" name="myFiles" onchange="loadBlocklyCodeFromFile();"/></label>
           &nbsp;|&nbsp;
           <button>Help</button>
       </td>
@@ -422,10 +425,10 @@
       
     function saveCode() {
       var code = Blockly.Python.workspaceToCode(workspace);
-      saveData(code, "code.py");
+      savePythonCodeToFile(code, "code.py");
     }
       
-    function saveData(data, fileName) {
+    function savePythonCodeToFile(data, fileName) {
       var a = document.createElement("a");
       document.body.appendChild(a);
       a.style = "display: none";
@@ -437,6 +440,58 @@
       a.download = fileName;
       a.click();
       window.URL.revokeObjectURL(url);
+    }
+
+    function saveBlocklyCodeToFile() {
+      var a = document.createElement("a");
+      document.body.appendChild(a);
+      a.style = "display: none";
+
+      var xml = Blockly.Xml.workspaceToDom(workspace);
+      var xml_text = Blockly.Xml.domToPrettyText(xml);
+
+      var json = JSON.stringify(xml_text),
+          blob = new Blob([xml_text], {type: "text/plain;charset=utf-8"}),
+          url = window.URL.createObjectURL(blob);
+      a.href = url;
+      a.download = "code.blockly";
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+
+    // got this from here: https://stackoverflow.com/questions/21012580/is-it-possible-to-write-data-to-file-using-only-javascript
+    function loadBlocklyCodeFromFile() {
+
+      const selectedFile = document.getElementById('fileToLoad').files[0];
+      // update the new file name
+      currentFileName = selectedFile.name;
+      
+      const reader = new FileReader();
+      reader.onload = (function(evt) { 
+        var result = evt.target.result;
+
+        try {
+          var xml = Blockly.Xml.textToDom(result);
+          // clear editor first
+          Blockly.mainWorkspace.clear();
+          Blockly.Xml.domToWorkspace(xml, workspace);
+        }
+        catch(err) {
+          alert("Not a Blockly for CircuitPython file.");
+        }
+
+      });
+      reader.readAsText(selectedFile);
+    }
+
+    function clearBlocklyCode() {
+      // clear editor
+
+      var result = confirm("Press OK to clear all code.");
+      if (result == true) {
+        document.getElementById('fileToLoad').value = ''
+        Blockly.mainWorkspace.clear();
+      } 
     }
       
   </script>
