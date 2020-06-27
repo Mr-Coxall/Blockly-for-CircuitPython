@@ -9,12 +9,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="./favicon.ico" type="image/x-icon" />
 
-  <title>CircuitPython Blockly for </title>
+  <title>CircuitPython for Blockly</title>
 
   <script src="./blockly_compressed.js"></script>
   <script src="./blocks_compressed.js"></script>
   <script src="./msg/js/en.js"></script>
-  <script src="./python_compressed.js"></script> 
+  <script src="./python_compressed.js"></script>
   <style>
     html, body {
       height: 100%;
@@ -421,12 +421,12 @@ text/plain" type="file" id="fileToLoad" name="myFiles" onchange="loadBlocklyCode
     window.addEventListener('resize', onresize, false);
     onresize();
     Blockly.svgResize(workspace);
-      
+
     function saveCode() {
       var code = Blockly.Python.workspaceToCode(workspace);
       savePythonCodeToFile(code, "code.py");
     }
-      
+
     function savePythonCodeToFile(data, fileName) {
       var a = document.createElement("a");
       document.body.appendChild(a);
@@ -464,9 +464,9 @@ text/plain" type="file" id="fileToLoad" name="myFiles" onchange="loadBlocklyCode
       const selectedFile = document.getElementById('fileToLoad').files[0];
       // update the new file name
       currentFileName = selectedFile.name;
-      
+
       const reader = new FileReader();
-      reader.onload = (function(evt) { 
+      reader.onload = (function(evt) {
         var result = evt.target.result;
 
         try {
@@ -490,9 +490,9 @@ text/plain" type="file" id="fileToLoad" name="myFiles" onchange="loadBlocklyCode
       if (result == true) {
         document.getElementById('fileToLoad').value = ''
         Blockly.mainWorkspace.clear();
-      } 
+      }
     }
-      
+
   </script>
 </body>
 </html>
