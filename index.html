@@ -51,7 +51,7 @@
           <label class="input-button">Load Program:&nbsp;<input accept=".blockly,
 text/plain" type="file" id="fileToLoad" name="myFiles" onchange="loadBlocklyCodeFromFile();"/></label>
           &nbsp;|&nbsp;
-          <label onclick="help()">Help</label>
+          <label onclick="help()" style="color:#652F8F";>Help</label>
       </td>
     </tr>
     <tr>
@@ -491,6 +491,10 @@ text/plain" type="file" id="fileToLoad" name="myFiles" onchange="loadBlocklyCode
         document.getElementById('fileToLoad').value = ''
         Blockly.mainWorkspace.clear();
       }
+    }
+
+    function help() {
+      window.open("https://github.com/Mr-Coxall/Blockly-for-CircuitPython", "_blank");
     }
 
   </script>
